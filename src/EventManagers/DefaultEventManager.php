@@ -22,7 +22,7 @@ class DefaultEventManager extends EventManager
 
     public function after(JobProcessed $event): void
     {
-        if (!$event->job->hasFailed()) {
+        if (!$event->job->hasFailed() and !$event->job->isReleased()) {
             $this->getUpdater()->update($event, [
                 'status' => $this->getEntity()::STATUS_FINISHED,
                 'finished_at' => Carbon::now(),
